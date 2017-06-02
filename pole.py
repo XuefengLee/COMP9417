@@ -1,3 +1,4 @@
+
 import gym
 from gym import wrappers
 import numpy as np
@@ -8,29 +9,26 @@ from time import sleep
 ENVIRONMENT = 'CartPole-v0'
     #'MountainCar-v0'
 
-MONITOR = True
-UPLOAD = True
+MONITOR = False
+UPLOAD = False
 env = gym.make(ENVIRONMENT)
 
 if(MONITOR):
     env = wrappers.Monitor(env, '/Users/smountain/Desktop/9417ASSN2/Monitor')
 
-#for item in (env.observation_space.high):
-#    print(type(item))
-#print(env.observation_space.low)
-
 ## Defining the environment related constants
 
-# Number of discrete states (bucket) per state dimension
-NUM_BUCKETS = (3, 3, 6, 3)  # (x, x', theta, theta')
-# Number of discrete actions
+NUM_BUCKETS = (1, 1, 6, 3)  # (x, x', theta, theta')
+
 NUM_ACTIONS = env.action_space.n # (left, right)
+
 # Bounds for each discrete state
 STATE_BOUNDS = list(zip(env.observation_space.low, env.observation_space.high))
 STATE_BOUNDS[0] = [-2.4, 2.4]
 STATE_BOUNDS[1] = [-1.0, 1.0]
 STATE_BOUNDS[2] = [-math.radians(15), math.radians(15)]
 STATE_BOUNDS[3] = [-math.radians(50), math.radians(50)]
+
 # Index of the action
 ACTION_INDEX = len(NUM_BUCKETS)
 
@@ -85,17 +83,7 @@ def simulate():
 
             # Setting up for the next iteration
             state_0 = state
-            # Print data
-            if (DEBUG_MODE):
-                print("\nEpisode = %d" % episode)
-                print("t = %d" % t)
-                print("Action: %d" % action)
-                print("State: %s" % str(state))
-                print("Reward: %f" % reward)
-                print("Best Q: %f" % best_q)
-                print("Explore rate: %f" % explore_rate)
-                print("Learning rate: %f" % learning_rate)
-                print("Streaks: %d" % num_streaks)
+
 
             if done:
                print("Episode %d finished after %f time steps" % (episode, t))
@@ -107,7 +95,7 @@ def simulate():
 
             #sleep(0.25)
 
-        # It's considered done when it's solved over 120 times consecutively
+        # solved condition may be changed in the future
         if num_streaks > STREAK_TO_END:
             break
 
