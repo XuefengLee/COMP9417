@@ -1,2 +1,2 @@
 # COMP9417
-Cart-pole balancing using reinforcement learning
+Learning control policies with Double Q-Learning
